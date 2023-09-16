@@ -1,10 +1,13 @@
 from aiogram import Dispatcher
 from aiogram.types import Message
+from aiogram.filters import Command
+
+from tgbot.filters.admin import AdminFilter
 
 
 async def admin_start(message: Message):
-    await message.reply("Hello, admin!")
+    await message.reply('Hello, admin!')
 
 
 def register_admin(dp: Dispatcher):
-    dp.register_message_handler(admin_start, commands=["start"], state="*", is_admin=True)
+    dp.message.register(admin_start, Command('admin'), AdminFilter(True))
