@@ -2,7 +2,7 @@ from aiogram import Dispatcher
 from aiogram.types import Message
 from aiogram.filters import Command
 
-from tgbot.filters.admin import AdminFilter
+from src.tgbot.filters.admin import AdminFilter
 
 
 async def admin_start(message: Message):

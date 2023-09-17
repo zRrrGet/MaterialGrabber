@@ -2,7 +2,7 @@ import typing
 
 from aiogram.filters import Filter
 from aiogram.types import Message
-from tgbot.config import Config
+from src.tgbot.config import Config
 
 
 class AdminFilter(Filter):

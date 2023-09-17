@@ -5,13 +5,13 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import setup_dialogs
 
-from tgbot.config import load_config
-from tgbot.handlers.user import register_user
-from tgbot.handlers.admin import register_admin
-from tgbot.handlers.errors import register_all_error_handlers
-from tgbot.models.base import create_pool
+from src.tgbot.config import load_config
+from src.tgbot.handlers.user import register_user
+from src.tgbot.handlers.admin import register_admin
+from src.tgbot.handlers.errors import register_all_error_handlers
+from src.tgbot.models.base import create_pool
 
-from tgbot.dialogs.user_menu import main_dialog
+from src.tgbot.dialogs.user_menu import main_dialog
 
 logger = logging.getLogger(__name__)
 
@@ -60,3 +60,15 @@ if __name__ == '__main__':
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
         logger.error("Bot stopped!")
+
+#  todo Application
+# ContentDownloader
+# FileStorage
+# ContentRepo
+# UserRepo
+
+# DownloaderWorker
+# RequestDownloadUseCase
+# GetRequestStatusUseCase
+# EnsureUserUseCase
+# GrantAccessUserUseCase

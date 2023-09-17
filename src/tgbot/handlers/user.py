@@ -4,8 +4,8 @@ from aiogram.filters import Command
 
 from aiogram_dialog import DialogManager, StartMode
 
-from tgbot.config import Config
-from tgbot.misc.states import MainDialogSG
+from src.tgbot.config import Config
+from src.tgbot.misc.states import MainDialogSG
 
 
 async def user_start(message: Message, dialog_manager: DialogManager, config: Config):
