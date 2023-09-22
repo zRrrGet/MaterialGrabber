@@ -26,5 +26,5 @@ class FakeUserRepo(IUserRepository):
 
         return None
 
-    def change_sub_by_tg(self, tg_id: int, subscribed: bool) -> Optional[User]:
+    def change_sub_by_tg(self, tg_id: int, subscribed: bool):
         self.sub = subscribed

@@ -1,8 +1,9 @@
+from typing import Optional
 from dataclasses import dataclass
 
 
 @dataclass
 class User(object):
-    id: int
+    id: Optional[int]
     tg_id: int
     subscribed_on_channels: bool

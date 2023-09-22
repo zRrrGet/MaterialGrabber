@@ -19,5 +19,5 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def change_sub_by_tg(self, tg_id: int, subscribed: bool) -> Optional[User]:
+    def change_sub_by_tg(self, tg_id: int, subscribed: bool):
         pass
