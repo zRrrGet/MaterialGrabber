@@ -13,11 +13,15 @@ class SqliteUserRepo(IUserRepository):
     def __init__(self, session: scoped_session):
         self.session = session
 
-    def add_user(self, user: EntityUser):
+    def add_user(self, user: EntityUser) -> int:
         session = self.session()
-        session.add(User(id=user.id, tg_id=user.tg_id, subscribed_on_channels=user.subscribed_on_channels))
+        new_user = User(id=user.id, tg_id=user.tg_id, subscribed_on_channels=user.subscribed_on_channels)
+        session.add(new_user)
         session.commit()
+        session.refresh(new_user)
         session.close()
+
+        return new_user.id
 
     def get_user(self, user_id: int) -> Optional[EntityUser]:
         session = self.session()
@@ -33,11 +37,11 @@ class SqliteUserRepo(IUserRepository):
 
         return EntityUser(id=user.id, tg_id=user.tg_id, subscribed_on_channels=user.subscribed_on_channels)
 
-    def change_sub_by_tg(self, tg_id: int, subscribed: bool):
+    def change_sub(self, user_id: int, subscribed: bool):
         session = self.session()
         session.execute(
             update(User)
-            .where(User.tg_id == tg_id)
+            .where(User.id == user_id)
             .values({'subscribed_on_channels': subscribed})
             .execution_options(synchronize_session='fetch')
         )

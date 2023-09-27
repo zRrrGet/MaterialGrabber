@@ -6,10 +6,12 @@ from sqlalchemy_utils import database_exists
 from src.core.domain.repositories.repo_factory import IRepositoryFactory
 from src.core.domain.repositories.user_repo import IUserRepository
 from src.core.domain.repositories.channel_repo import IChannelRepository
+from src.core.domain.repositories.download_request_repo import IDownloadRequestRepository
 
 from src.core.external.orm.models import Base
 from .user.sqlite_user_repo import SqliteUserRepo
 from .channel.sqlite_channel_repo import SqliteChannelRepo
+from .download_request.sqlite_download_request_repo import SqliteDownloadRequestRepo
 
 
 class SqliteRepoFactory(IRepositoryFactory):
@@ -29,3 +31,6 @@ class SqliteRepoFactory(IRepositoryFactory):
 
     def create_channel_repo(self) -> IChannelRepository:
         return SqliteChannelRepo(self.session)
+
+    def create_download_request_repo(self) -> IDownloadRequestRepository:
+        return SqliteDownloadRequestRepo(self.session)

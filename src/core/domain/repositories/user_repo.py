@@ -7,7 +7,7 @@ from src.core.domain.entities.user import User
 class IUserRepository(ABC):
 
     @abstractmethod
-    def add_user(self, user: User):
+    def add_user(self, user: User) -> int:
         pass
 
     @abstractmethod
@@ -19,5 +19,5 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def change_sub_by_tg(self, tg_id: int, subscribed: bool):
+    def change_sub(self, user_id: int, subscribed: bool):
         pass

@@ -6,8 +6,9 @@ from aiogram_dialog.api.exceptions import UnknownIntent
 
 
 async def unknown_control(event: ErrorEvent):
-    err_text = 'Похоже, вы взаимодействуете с уже недействительным элементом управления :('
-    await event.update.callback_query.message.answer(err_text)
+    if event.update.callback_query:
+        err_text = 'Похоже, вы взаимодействуете с уже недействительным элементом управления :('
+        await event.update.callback_query.message.answer(err_text)
 
 
 def register_all_error_handlers(dp: Dispatcher):

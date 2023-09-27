@@ -1,0 +1,2 @@
+class MaterialGrabberException(Exception):
+    pass

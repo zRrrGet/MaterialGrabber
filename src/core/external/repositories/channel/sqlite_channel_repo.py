@@ -1,5 +1,5 @@
 from sqlalchemy.orm.scoping import scoped_session
-from sqlalchemy import update, select, delete
+from sqlalchemy import delete
 
 from src.core.external.orm.models import Channel
 from src.core.domain.entities.channel import Channel as EntityChannel
