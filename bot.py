@@ -1,14 +1,15 @@
 import asyncio
+import urllib3
 import logging
 
 from aiogram import Bot, Dispatcher
+from aiogram.types import BotCommand
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import setup_dialogs
 
-from src.core.external.components.content_downloader.fake_downloader import FakeContentDownloader
-from src.core.external.components.content_downloader.content_downloader import ContentDownloader
-from src.core.domain.entities.download_request import ContentType
-from src.core.external.components.content_downloader.sources.downloader_client import IDownloaderClient
+from src.core.external.components.mega_storage import MegaStorage
+from src.core.external.components.content_downloader.beatsnoop_downloader import BeatsnoopDownloader
+from src.core.external.components.content_downloader.session_factory.base_session_factory import BaseSessionFactory
 
 from src.core.domain.interactors.content_downloader.downloader_worker import DownloaderWorker
 from src.core.domain.interactors.content_downloader.base_downloader_interactor import DownloaderInteractor
@@ -30,6 +31,7 @@ from src.tgbot.middlewares.user_middleware import UserMiddleware
 
 from src.tgbot.dialogs.user_menu import main_dialog
 from src.tgbot.dialogs.sub_alert import sub_alert_dialog
+from src.tgbot.dialogs.rules_agreement import rules_agreement_dialog
 from src.tgbot.dialogs.progress_observer import progress_observer_dialog
 
 logger = logging.getLogger(__name__)
@@ -38,6 +40,7 @@ logger = logging.getLogger(__name__)
 def register_all_dialogs(dr: Dispatcher):
     dr.include_router(main_dialog)
     dr.include_router(sub_alert_dialog)
+    dr.include_router(rules_agreement_dialog)
     dr.include_router(progress_observer_dialog)
     setup_dialogs(dr)
 
@@ -52,13 +55,16 @@ def register_all_handlers(dp):
     register_all_error_handlers(dp)
 
 
+async def set_default_commands(bot):
+    await bot.set_my_commands([
+        BotCommand(command='start', description='Меню'),
+        BotCommand(command='chat', description='Чат для общения'),
+        BotCommand(command='donate', description='Сказать спасибо'),
+    ])
+
+
 async def main():
-
-    content_downloader = ContentDownloader()
-    content_downloader.download(input('shit: '),
-                                ContentType.video)
-
-    return
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     logging.basicConfig(
         level=logging.INFO,
@@ -79,15 +85,17 @@ async def main():
     user_interactor = UserInteractor(user_repo, channel_repo, sub_validator)
     user_controller = UserController(user_interactor)
 
-    content_downloader = FakeContentDownloader()
+    content_downloader = BeatsnoopDownloader(BaseSessionFactory())
     downloader_interactor = DownloaderInteractor(user_interactor, request_repo, ChainFactory())
     downloader_controller = DownloaderController(downloader_interactor)
 
-    DownloaderWorker(request_repo, content_downloader).start()
+    mega_storage = MegaStorage('C:\\Users\\Administrator\\AppData\\Local\\MEGAcmd', 'data')
+    DownloaderWorker(request_repo, content_downloader, mega_storage).start()
 
     dp = Dispatcher(storage=storage, config=config, user_controller=user_controller,
                     downloader_controller=downloader_controller)
 
+    await set_default_commands(bot)
     register_all_dialogs(dp)
     register_all_handlers(dp)
     register_all_middlewares(dp)
@@ -104,21 +112,3 @@ if __name__ == '__main__':
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
         logger.error("Bot stopped!")
-
-#  todo Application
-# ContentDownloader
-# FileStorage
-# ContentRepo
-# UserRepo
-
-# DownloaderWorker
-
-# DownloaderController
-# DownloaderInteractor
-# - RequestDownload
-# - GetRequestStatus
-
-# UserController
-# UserInteractor
-# - EnsureUser
-# - GrantBaseAccessUser

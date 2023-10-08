@@ -18,7 +18,7 @@ class UserInteractor(IUserInteractor):
     def ensure_user(self, tg_id: int) -> int:
         user = self.user_repo.get_user_by_tg(tg_id)
         if not user:
-            return self.user_repo.add_user(User(None, tg_id, False))
+            return self.user_repo.add_user(User(None, tg_id, False, False))
 
         return user.id
 
@@ -32,5 +32,11 @@ class UserInteractor(IUserInteractor):
             if not await self.sub_validator.validate(channel.chat_id, user.tg_id):
                 left_channels.append(channel)
 
-        self.user_repo.change_sub(user_id, not left_channels)
+        self.user_repo.update_sub(user_id, not left_channels)
         return left_channels
+
+    def are_rules_accepted(self, user_id: int) -> bool:
+        return self.user_repo.get_user(user_id).accepted_rules
+
+    def update_rules_agreement(self, user_id: int, agreed_with_rules: bool):
+        self.user_repo.update_rules_agreement(user_id, agreed_with_rules)

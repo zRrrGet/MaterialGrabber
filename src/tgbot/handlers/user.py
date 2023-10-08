@@ -1,17 +1,29 @@
-from aiogram import Dispatcher
+from aiogram import Dispatcher, Router
 from aiogram.types import Message
-from aiogram.filters import Command
+from aiogram.filters import CommandStart, Command
 
 from aiogram_dialog import DialogManager, StartMode
-
-from src.tgbot.config import Config
 from src.tgbot.misc.states import MainDialogSG
 
 
-async def user_start(message: Message, dialog_manager: DialogManager, config: Config):
-    await message.answer(config.misc.start_text)
+async def on_start(message: Message, dialog_manager: DialogManager):
     await dialog_manager.start(MainDialogSG.main, mode=StartMode.RESET_STACK)
 
 
+async def on_chat(message: Message, dialog_manager: DialogManager):
+    await message.answer('<a href="https://google.com">Здесь</a> вы можете пообщаться с пользователями бота '
+                         'и задать все интересующие вопросы.')
+
+
+async def on_donate(message: Message, dialog_manager: DialogManager):
+    await message.answer('В разработке...')
+
+
 def register_user(dp: Dispatcher):
-    dp.message.register(user_start, Command('start'))
+    router = Router()
+    dp.include_router(router)
+
+    router.message.register(on_start)
+    dp.message.register(on_start, CommandStart())
+    dp.message.register(on_chat, Command('chat'))
+    dp.message.register(on_donate, Command('donate'))

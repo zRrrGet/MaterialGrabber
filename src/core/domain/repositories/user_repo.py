@@ -19,5 +19,9 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def change_sub(self, user_id: int, subscribed: bool):
+    def update_sub(self, user_id: int, subscribed: bool):
+        pass
+
+    @abstractmethod
+    def update_rules_agreement(self, user_id: int, agreed_with_rules: bool):
         pass

@@ -3,13 +3,14 @@ from dataclasses import dataclass
 
 from src.core.domain.interactors.user.user_interactor import IUserInteractor
 from src.core.domain.repositories.download_request_repo import IDownloadRequestRepository
+from src.core.domain.entities.download_request import DownloadRequest
 
 
 @dataclass
 class HandlerRequest:
     user_interactor: IUserInteractor
     request_repo: IDownloadRequestRepository
-    user_id: int
+    req: DownloadRequest
 
 
 class AbstractHandler(ABC):

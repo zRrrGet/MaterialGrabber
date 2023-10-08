@@ -1,15 +1,18 @@
-from .downloader_client import IDownloaderClient
+from src.core.external.components.content_downloader.sources.downloader_client import IDownloaderClient
 
 
-class DepositphotosVideoClient(IDownloaderClient):
+class FetchpikClient(IDownloaderClient):
 
     @property
     def endpoint(self) -> str:
-        return 'https://fetchpik.com/depositphotos-videos-downloader.php'
+        raise RuntimeError('Not implemented')
+
+    def prepare_request_link(self, link: str) -> str:
+        return link
 
     def get_download_links(self, link: str) -> list[str]:
         data = {
-            'url': link,
+            'url': self.prepare_request_link(link),
             'token': '5f1c6979a54c99e1398296826675621a',
             'send': ''
         }

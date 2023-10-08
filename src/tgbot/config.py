@@ -10,14 +10,8 @@ class TgBot:
 
 
 @dataclass
-class Miscellaneous:
-    start_text: str
-
-
-@dataclass
 class Config:
     tg_bot: TgBot
-    misc: Miscellaneous
 
 
 def load_config(path: str = None):
@@ -28,8 +22,5 @@ def load_config(path: str = None):
         tg_bot=TgBot(
             token=env.str("BOT_TOKEN"),
             admin_ids=list(map(int, env.list("ADMINS"))),
-        ),
-        misc=Miscellaneous(
-            start_text=open('start.html', encoding="utf-8").read()
         )
     )

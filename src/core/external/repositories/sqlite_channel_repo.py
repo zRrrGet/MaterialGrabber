@@ -1,15 +1,13 @@
 from sqlalchemy.orm.scoping import scoped_session
 from sqlalchemy import delete
 
+from .sqlite_base import SqliteBaseRepo
 from src.core.external.orm.models import Channel
 from src.core.domain.entities.channel import Channel as EntityChannel
 from src.core.domain.repositories.channel_repo import IChannelRepository
 
 
-class SqliteChannelRepo(IChannelRepository):
-
-    def __init__(self, session: scoped_session):
-        self.session = session
+class SqliteChannelRepo(IChannelRepository, SqliteBaseRepo):
 
     def add_channel(self, channel: EntityChannel):
         session = self.session()
@@ -18,10 +16,7 @@ class SqliteChannelRepo(IChannelRepository):
         session.close()
 
     def remove_channel(self, channel_id: int):
-        session = self.session()
-        session.execute(delete(Channel).where(Channel.id == channel_id))
-        session.commit()
-        session.close()
+        self.execute(delete(Channel).where(Channel.id == channel_id))
 
     def get_channels(self) -> list[EntityChannel]:
         session = self.session()

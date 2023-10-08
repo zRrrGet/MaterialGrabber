@@ -9,9 +9,9 @@ from src.core.domain.repositories.channel_repo import IChannelRepository
 from src.core.domain.repositories.download_request_repo import IDownloadRequestRepository
 
 from src.core.external.orm.models import Base
-from .user.sqlite_user_repo import SqliteUserRepo
-from .channel.sqlite_channel_repo import SqliteChannelRepo
-from .download_request.sqlite_download_request_repo import SqliteDownloadRequestRepo
+from src.core.external.repositories.sqlite_user_repo import SqliteUserRepo
+from src.core.external.repositories.sqlite_channel_repo import SqliteChannelRepo
+from src.core.external.repositories.sqlite_download_request_repo import SqliteDownloadRequestRepo
 
 
 class SqliteRepoFactory(IRepositoryFactory):
@@ -20,7 +20,7 @@ class SqliteRepoFactory(IRepositoryFactory):
         engine = create_engine(f'sqlite:///{db_path}')
 
         if not database_exists(engine.url):
-            Base.metadata.drop_all(engine)
+            # Base.metadata.drop_all(engine)
             Base.metadata.create_all(engine)
 
         session_factory = sessionmaker(bind=engine, expire_on_commit=False)

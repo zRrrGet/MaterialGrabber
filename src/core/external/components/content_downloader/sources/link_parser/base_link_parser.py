@@ -8,6 +8,7 @@ class BaseLinkParser(ILinkParser):
     def extract_straight_link(self, url: str) -> str:
         parsed_url = urlparse(url)
         params = parse_qs(parsed_url.query)
+
         for param in params.values():
             if urlparse(param[0]).scheme:
                 return self.extract_straight_link(param[0])
@@ -18,9 +19,10 @@ class BaseLinkParser(ILinkParser):
         download_links = []
         soup = BeautifulSoup(page, 'html.parser')
         link_items = soup.findAll('a')
+
         for item in link_items:
             link = item['href']
             if link.count('http://') + link.count('https://') >= 2:
-                download_links.append(self.extract_straight_link(item['href']))
+                download_links.append(self.extract_straight_link(link))
 
         return download_links

@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from src.core.domain.entities.download_request import DownloadRequest
+from src.core.domain.entities.download_request import DownloadRequest, ContentType
 
 
 class IDownloaderInteractor(ABC):
 
     @abstractmethod
-    async def request_download(self, user_id: int, download_link: str) -> int:
+    async def request_download(self, user_id: int, download_link: str, content_type: ContentType) -> int:
         pass
 
     @abstractmethod
