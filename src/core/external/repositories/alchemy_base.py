@@ -1,7 +1,7 @@
 from sqlalchemy.orm.scoping import scoped_session
 
 
-class SqliteBaseRepo:
+class AlchemyBaseRepo:
 
     def __init__(self, session: scoped_session):
         self.session = session

@@ -1,5 +1,3 @@
-import asyncio
-
 from aiogram.types import CallbackQuery
 from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.text import Const
@@ -24,9 +22,7 @@ async def on_discard(callback: CallbackQuery, button: Button, manager: DialogMan
 rules_agreement_dialog = Dialog(
     Window(
 
-        Const('Соглашение об использовании бота нейросети YOLICO:\n\n'
-
-              'Перед началом использования YOLICO бота пользователь обязан ознакомиться с Условиями использования '
+        Const('Перед началом использования YOLICO бота пользователь обязан ознакомиться с Условиями использования '
               'данного сервиса. Оплата ( без оплата ) пользователем услуг YOLICO означает, что пользователь полностью '
               'согласен и принимает все условия Соглашения.\n\n'
 

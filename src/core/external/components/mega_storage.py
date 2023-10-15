@@ -12,7 +12,7 @@ class MegaStorage(IFileStorage):
 
     def upload(self, file_path: str) -> str:
         os.popen(f'{self.mega_folder}\\mega-put -c {file_path} {self.cloud_folder}').read()
-        export_response = os.popen(f'{self.mega_folder}\\mega-export -a  --expire=1d {self.cloud_folder}/'
+        export_response = os.popen(f'{self.mega_folder}\\mega-export -a  {self.cloud_folder}/'
                                    f'{os.path.basename(file_path)}').read()
 
         match = re.search("(?P<url>https?://[^\s]+)", export_response)

@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 from src.core.domain.interactors.user.user_interactor import IUserInteractor
+from src.core.domain.interactors.day_limit.day_limit_interactor import IDayLimitInteractor
 from src.core.domain.repositories.download_request_repo import IDownloadRequestRepository
 from src.core.domain.entities.download_request import DownloadRequest
 
@@ -9,6 +10,7 @@ from src.core.domain.entities.download_request import DownloadRequest
 @dataclass
 class HandlerRequest:
     user_interactor: IUserInteractor
+    day_limit_interactor: IDayLimitInteractor
     request_repo: IDownloadRequestRepository
     req: DownloadRequest
 

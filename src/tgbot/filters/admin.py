@@ -14,4 +14,4 @@ class AdminFilter(Filter):
         if self.is_admin is None:
             return False
 
-        return (message.from_user.id in config.tg_bot.admin_ids) == self.is_admin
+        return (message.from_user.id in config.admin_ids) == self.is_admin

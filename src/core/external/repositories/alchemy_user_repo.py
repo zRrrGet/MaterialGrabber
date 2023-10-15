@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy import update, select
 
-from .sqlite_base import SqliteBaseRepo
+from .alchemy_base import AlchemyBaseRepo
 from src.core.external.orm.models import User
 from src.core.domain.entities.user import User as EntityUser
 from src.core.domain.repositories.user_repo import IUserRepository
@@ -10,7 +10,7 @@ from src.core.domain.repositories.user_repo import IUserRepository
 from src.core.external.orm.mappers.user_mapper import UserMapper
 
 
-class SqliteUserRepo(IUserRepository, SqliteBaseRepo):
+class AlchemyUserRepo(IUserRepository, AlchemyBaseRepo):
 
     def add_user(self, user: EntityUser) -> int:
         session = self.session()

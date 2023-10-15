@@ -5,12 +5,14 @@ from src.core.domain.components.sub_validator import ISubValidator
 from src.core.domain.entities.channel import Channel
 from src.core.domain.entities.user import User
 
+from src.core.domain.interactors.content_downloader.downloader_interactor import IDownloaderInteractor
 from .user_interactor import IUserInteractor
 
 
 class UserInteractor(IUserInteractor):
 
-    def __init__(self, user_repo: IUserRepository, channel_repo: IChannelRepository, sub_validator: ISubValidator):
+    def __init__(self, user_repo: IUserRepository,
+                 channel_repo: IChannelRepository, sub_validator: ISubValidator):
         self.user_repo = user_repo
         self.channel_repo = channel_repo
         self.sub_validator = sub_validator

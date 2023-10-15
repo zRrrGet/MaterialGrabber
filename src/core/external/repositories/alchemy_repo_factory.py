@@ -9,28 +9,26 @@ from src.core.domain.repositories.channel_repo import IChannelRepository
 from src.core.domain.repositories.download_request_repo import IDownloadRequestRepository
 
 from src.core.external.orm.models import Base
-from src.core.external.repositories.sqlite_user_repo import SqliteUserRepo
-from src.core.external.repositories.sqlite_channel_repo import SqliteChannelRepo
-from src.core.external.repositories.sqlite_download_request_repo import SqliteDownloadRequestRepo
+from src.core.external.repositories.alchemy_user_repo import AlchemyUserRepo
+from src.core.external.repositories.alchemy_channel_repo import AlchemyChannelRepo
+from src.core.external.repositories.alchemy_download_request_repo import AlchemyDownloadRequestRepo
 
 
-class SqliteRepoFactory(IRepositoryFactory):
+class AlchemyRepoFactory(IRepositoryFactory):
 
-    def __init__(self, db_path: str):
-        engine = create_engine(f'sqlite:///{db_path}')
-
-        if not database_exists(engine.url):
-            # Base.metadata.drop_all(engine)
-            Base.metadata.create_all(engine)
+    def __init__(self, db_url: str):
+        engine = create_engine(db_url)
+        Base.metadata.create_all(engine, checkfirst=True)
+        # Base.metadata.drop_all(engine)
 
         session_factory = sessionmaker(bind=engine, expire_on_commit=False)
         self.session = scoped_session(session_factory)
 
     def create_user_repo(self) -> IUserRepository:
-        return SqliteUserRepo(self.session)
+        return AlchemyUserRepo(self.session)
 
     def create_channel_repo(self) -> IChannelRepository:
-        return SqliteChannelRepo(self.session)
+        return AlchemyChannelRepo(self.session)
 
     def create_download_request_repo(self) -> IDownloadRequestRepository:
-        return SqliteDownloadRequestRepo(self.session)
+        return AlchemyDownloadRequestRepo(self.session)

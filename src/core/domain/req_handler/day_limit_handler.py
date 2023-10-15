@@ -6,6 +6,6 @@ from src.core.domain.exceptions.req_handler import DayLimitException
 class DayLimitHandler(AbstractHandler):
 
     async def process_request(self, request: HandlerRequest):
-        limit = 7
-        if len(request.request_repo.get_user_requests_this_day(request.req.user_id)) >= limit:
-            raise DayLimitException(limit)
+        day_req_limit = request.day_limit_interactor.get_limit(request.req.user_id)
+        if not day_req_limit.is_request_allowed:
+            raise DayLimitException(day_req_limit)

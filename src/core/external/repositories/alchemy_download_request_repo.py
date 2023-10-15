@@ -3,7 +3,7 @@ import datetime
 
 from sqlalchemy import update
 
-from .sqlite_base import SqliteBaseRepo
+from .alchemy_base import AlchemyBaseRepo
 from src.core.external.orm.models import DownloadRequest
 from src.core.domain.entities.download_request import DownloadRequest as EntityDownloadRequest
 from src.core.domain.entities.download_request import RequestStatus, FailStatus
@@ -12,7 +12,7 @@ from src.core.domain.repositories.download_request_repo import IDownloadRequestR
 from src.core.external.orm.mappers.download_request_mapper import DownloadRequestMapper
 
 
-class SqliteDownloadRequestRepo(IDownloadRequestRepository, SqliteBaseRepo):
+class AlchemyDownloadRequestRepo(IDownloadRequestRepository, AlchemyBaseRepo):
 
     def add_request(self, request: EntityDownloadRequest) -> int:
         session = self.session()
@@ -36,7 +36,7 @@ class SqliteDownloadRequestRepo(IDownloadRequestRepository, SqliteBaseRepo):
 
     def filter(self, *criterion) -> list[EntityDownloadRequest]:
         session = self.session()
-        requests = session.query(DownloadRequest).filter(*criterion).all()
+        requests = session.query(DownloadRequest).order_by(DownloadRequest.created_date).filter(*criterion).all()
         session.close()
         return list(map(lambda c: DownloadRequestMapper.to_entity(c), requests))
 

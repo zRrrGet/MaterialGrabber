@@ -1,3 +1,4 @@
+from src.core.domain.interactors.day_limit.requests_limit import DayRequestsLimit
 from src.core.domain.entities.download_request import DownloadRequest
 from src.core.domain.exceptions import MaterialGrabberException
 
@@ -10,17 +11,14 @@ class SubValidationException(ReqHandlerException):
     pass
 
 
-class LimitException(ReqHandlerException):
+class ParallelLimitException(ReqHandlerException):
     def __init__(self, limit: int):
         self.limit = limit
 
 
-class DayLimitException(LimitException):
-    pass
-
-
-class ParallelLimitException(LimitException):
-    pass
+class DayLimitException(ReqHandlerException):
+    def __init__(self, day_req_limit: DayRequestsLimit):
+        self.day_req_limit = day_req_limit
 
 
 class SameReqException(ReqHandlerException):

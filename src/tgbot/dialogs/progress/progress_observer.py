@@ -11,6 +11,8 @@ from src.tgbot.misc.states import ProgressObserverDialogSG
 from src.core.domain.entities.download_request import RequestStatus, FailStatus, DownloadRequest
 from src.core.external.controllers.downloader_controller import DownloaderController
 
+from src.tgbot.dialogs.back_msg import answer_back_msg
+
 
 def get_state_name(status: RequestStatus) -> str:
     return {
@@ -65,9 +67,9 @@ async def observe_req_status(m: Message, manager: DialogManager, request_id,
 
     if req.fail_status == FailStatus.no_exception:
         keyboard = build_download_keyboard(req)
-        await m.answer(f'Загрузка завершена! Файл доступен для скачивания 24 часа.', reply_markup=keyboard)
+        await answer_back_msg(m, f'Загрузка завершена! Файл доступен для скачивания 24 часа.', keyboard)
     else:
-        await m.answer(get_err_msg(req.fail_status))
+        await answer_back_msg(m, get_err_msg(req.fail_status))
 
 
 async def get_progress_data(dialog_manager: DialogManager, **kwargs):

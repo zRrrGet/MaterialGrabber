@@ -17,6 +17,7 @@ from src.core.external.components.content_downloader.sources.clients.storyblocks
 from src.core.external.components.content_downloader.sources.clients.storyblocks_photo import StoryblocksPhotoClient
 from src.core.external.components.content_downloader.sources.clients.videezy import VideezyClient
 from src.core.external.components.content_downloader.sources.clients.eyeem import EyeemClient
+from src.core.external.components.content_downloader.sources.clients.agefotostock import AgefotostockClient
 
 from .link_parser.base_link_parser import BaseLinkParser
 from .link_parser.raw_link_parser import RawLinkParser
@@ -58,6 +59,9 @@ class DownloaderClientFactory:
             },
             'www.eyeem.com': {
                 content_type.photo: EyeemClient
+            },
+            'www.agefotostock.com': {
+                content_type.photo: AgefotostockClient
             }
         }[hostname][content_type]
 

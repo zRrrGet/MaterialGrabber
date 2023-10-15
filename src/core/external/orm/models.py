@@ -1,7 +1,7 @@
 from __future__ import annotations
 import datetime
 
-from sqlalchemy import DateTime
+from sqlalchemy import DateTime, BIGINT
 from sqlalchemy.sql import func
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -18,7 +18,7 @@ class User(Base):
     __mapper_args__ = {'eager_defaults': True}
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
-    tg_id: Mapped[int] = mapped_column(unique=True)
+    tg_id: Mapped[int] = mapped_column(BIGINT, unique=True)
     subscribed_on_channels: Mapped[bool] = mapped_column()
     accepted_rules: Mapped[bool] = mapped_column()
 

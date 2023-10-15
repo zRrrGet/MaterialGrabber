@@ -1,13 +1,12 @@
-from sqlalchemy.orm.scoping import scoped_session
 from sqlalchemy import delete
 
-from .sqlite_base import SqliteBaseRepo
+from .alchemy_base import AlchemyBaseRepo
 from src.core.external.orm.models import Channel
 from src.core.domain.entities.channel import Channel as EntityChannel
 from src.core.domain.repositories.channel_repo import IChannelRepository
 
 
-class SqliteChannelRepo(IChannelRepository, SqliteBaseRepo):
+class AlchemyChannelRepo(IChannelRepository, AlchemyBaseRepo):
 
     def add_channel(self, channel: EntityChannel):
         session = self.session()
