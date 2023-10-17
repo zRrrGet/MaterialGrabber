@@ -132,7 +132,8 @@ downloader_dialog = Dialog(
         getter=content_types_getter
     ),
     Window(
-        Format('Введите ссылку на страницу с контентом: {stock_link}'),
+        Format('Отправьте ссылку на медиафайл с {stock_link}'),
+        Back(Const('◀ Назад')),
         MessageInput(on_input_link),
         state=DownloaderDialogSG.download_link_input,
         getter=stock_link_getter
