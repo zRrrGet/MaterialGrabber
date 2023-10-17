@@ -14,6 +14,7 @@ async def on_validate(callback: CallbackQuery, button: Button, manager: DialogMa
     user_controller: UserController = manager.middleware_data['user_controller']
 
     if await user_controller.is_subscribed(manager):
+        await callback.message.delete()
         await manager.done(show_mode=ShowMode.SEND)
     else:
         await callback.message.answer('Чтобы продолжить, нужно подписаться на канал.')
@@ -28,10 +29,10 @@ async def channels_getter(user_controller: UserController, dialog_manager: Dialo
 sub_alert_dialog = Dialog(
     Window(
 
-        Const('Вам не нужно тратить время на выбор области водяного знака для удаления. '
+        Const('Теперь не нужно тратить время на выбор области водяного знака для удаления. '
               'YOLICO бот определяет это автоматически.\n\n'
 
-              'Бот YOLICO сохраняет исходное качество вашего изображения без потери деталей.\n\n'
+              'Бот YOLICO сохраняет исходное качество вашего фото/видео без потери деталей.\n\n'
 
               'Для того, чтобы бесплатно пользоваться ботом YOLICO, нужно подписаться на канал.\n\n'
 
