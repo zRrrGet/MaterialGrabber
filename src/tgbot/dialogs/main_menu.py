@@ -14,7 +14,7 @@ async def limit_getter(day_limit_controller: DayLimitController, user_id: int, d
                        **kwargs):
     day_req_limit = day_limit_controller.get_limit(user_id)
     limit_text = f'<b>Доступные генерации:</b> {day_req_limit.left_requests}'
-    if day_req_limit.next_request_time:
+    if not day_req_limit.left_requests:
         limit_text += (f'\nСледующая генерация будет доступна: '
                        f'{day_req_limit.next_request_time.strftime("%d-%m-%Y %H:%M:%S")}')
 
@@ -43,7 +43,7 @@ async def on_dialog_start(start_data: dict, manager: DialogManager):
 
 main_dialog = Dialog(
     Window(
-        Const('<b>Главное меню</b>\n\nДля использования нейросети перейдите во вкладку '
+        Const('<b>Главное меню</b>\n\nДля использования бота нейросети YOLICO перейдите во вкладку '
               '«<b>Удалить водяные знаки</b>».\n'),
 
         Format('{day_limit_text}'),
