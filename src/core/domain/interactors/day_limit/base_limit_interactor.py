@@ -1,7 +1,8 @@
-from datetime import datetime, timezone, timedelta
+from datetime import timedelta
 
 from .day_limit_interactor import IDayLimitInteractor
 from .requests_limit import DayRequestsLimit
+from ...entities.download_request import FailStatus, RequestStatus
 from ...repositories.download_request_repo import IDownloadRequestRepository
 
 
@@ -14,11 +15,14 @@ class DayLimitInteractor(IDayLimitInteractor):
         base_day_limit = 5
 
         requests = self.request_repo.get_user_requests_this_day(user_id)
-        is_request_allowed = len(requests) < base_day_limit
-        left_requests = base_day_limit - len(requests)
+        done_requests = list(filter(lambda x: (x.fail_status == FailStatus.no_exception and
+                                               x.status == RequestStatus.finished), requests))
+
+        is_request_allowed = len(done_requests) < base_day_limit
+        left_requests = base_day_limit - len(done_requests)
         next_request_time = None
 
-        if requests:
-            next_request_time = requests[0].created_date + timedelta(days=1)
+        if done_requests:
+            next_request_time = done_requests[0].created_date + timedelta(days=1)
 
         return DayRequestsLimit(base_day_limit, is_request_allowed, left_requests, next_request_time)
