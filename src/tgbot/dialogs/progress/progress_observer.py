@@ -17,7 +17,7 @@ from src.tgbot.dialogs.back_msg import answer_back_msg
 def get_state_name(status: RequestStatus) -> str:
     return {
         status.waiting_queue: 'Ваш запрос в очереди, ожидайте...',
-        status.downloading_content: 'Скачивание материалов...',
+        status.downloading_content: 'Удаление водяных знаков...',
         status.uploading: 'Загрузка в облако...',
         status.finished: 'Завершено'
     }.get(status, 'Неизвестный статус')
