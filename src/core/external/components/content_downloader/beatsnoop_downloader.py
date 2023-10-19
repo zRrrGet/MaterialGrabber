@@ -19,7 +19,18 @@ class BeatsnoopDownloader(IContentDownloader):
         self.session_factory = session_factory
 
     @staticmethod
-    def download_file(url: str, session: requests.Session) -> str:
+    def is_media_file(ext: str):
+        mimestart = mimetypes.guess_type(ext)[0]
+
+        if mimestart is not None:
+            mimestart = mimestart.split('/')[0]
+
+            if mimestart in ['audio', 'video', 'image']:
+                return True
+
+        return False
+
+    def download_file(self, url: str, session: requests.Session) -> str:
         with session.get(url, stream=True) as r:
             local_filename = os.path.join(os.path.curdir, 'data', str(uuid.uuid4()))
 
@@ -35,6 +46,10 @@ class BeatsnoopDownloader(IContentDownloader):
             ext = magic.from_file(local_filename, mime=True)
             file_ext = mimetypes.guess_extension(ext)
             final_filename = f'{local_filename}{file_ext}'
+
+            if not self.is_media_file(final_filename):
+                raise RuntimeError('Downloaded file is not media file')
+
             os.rename(local_filename, final_filename)
 
         return final_filename
