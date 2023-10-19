@@ -13,4 +13,4 @@ class ShutterstockClient(ToolxoxClient):
 
     @property
     def endpoint(self) -> str:
-        return 'https://snapwordz.com/dl/ss/get_xox.php'
+        return 'https://snapwordz.com/dl/ss/index2.php'
