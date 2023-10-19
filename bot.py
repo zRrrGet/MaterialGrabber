@@ -94,7 +94,7 @@ async def main():
     downloader_interactor = DownloaderInteractor(user_interactor, day_limit_interactor, request_repo, ChainFactory())
     downloader_controller = DownloaderController(downloader_interactor)
 
-    mega_storage = MegaStorage('C:\\Users\\Administrator\\AppData\\Local\\MEGAcmd', 'data')
+    mega_storage = MegaStorage(config.mega_path, 'data')
     DownloaderWorker(request_repo, content_downloader, mega_storage).start()
 
     dp = Dispatcher(storage=storage, config=config, user_controller=user_controller,
