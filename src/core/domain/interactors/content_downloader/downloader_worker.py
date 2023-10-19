@@ -54,6 +54,7 @@ class DownloaderWorker:
         except FileStorageException:
             self.request_repo.update_fail_status(req.id, FailStatus.file_storage_ex)
         except requests.exceptions.RequestException as e:
+            logging.exception(e)
             self.request_repo.update_fail_status(req.id, FailStatus.requests_ex)
         except Exception as e:
             logging.exception(e)
