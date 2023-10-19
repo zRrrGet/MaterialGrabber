@@ -21,7 +21,7 @@ class BeatsnoopDownloader(IContentDownloader):
     @staticmethod
     def download_file(url: str, session: requests.Session) -> str:
         with session.get(url, stream=True) as r:
-            local_filename = f'{sys.path[0]}\\data\\{str(uuid.uuid4())}'
+            local_filename = os.path.join(os.path.curdir, 'data', str(uuid.uuid4()))
 
             os.makedirs(os.path.dirname(local_filename), exist_ok=True)
             with open(local_filename, 'wb') as f:
