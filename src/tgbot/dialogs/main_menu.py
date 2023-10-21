@@ -51,9 +51,9 @@ main_dialog = Dialog(
         Start(Const('🔷 Удалить водяные знаки 🔷'), id='downloader_dialog', state=DownloaderDialogSG.main),
         Group(
             SwitchTo(Const('Реферальная программа'), id='ref_dialog', state=MainDialogSG.in_dev),
-            Url(Const('Чат'), id='chat_url', url=Const('https://google.com')),
+            SwitchTo(Const('Чат'), id='chat_url', state=MainDialogSG.in_dev),
             SwitchTo(Const('Тех. помощь'), id='support_dialog', state=MainDialogSG.in_dev),
-            Url(Const('Вопрос-ответ'), id='faq_url', url=Const('https://google.com')),
+            SwitchTo(Const('Вопрос-ответ'), id='faq_url', state=MainDialogSG.in_dev),
             width=2),
         getter=limit_getter,
         state=MainDialogSG.main
