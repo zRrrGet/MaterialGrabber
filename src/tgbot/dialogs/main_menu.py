@@ -13,12 +13,14 @@ from src.core.external.controllers.day_limit_controller import DayLimitControlle
 async def limit_getter(day_limit_controller: DayLimitController, user_id: int, dialog_manager: DialogManager,
                        **kwargs):
     day_req_limit = day_limit_controller.get_limit(user_id)
+
     limit_text = f'<b>Доступные генерации:</b> {day_req_limit.left_requests}'
     if not day_req_limit.left_requests:
         limit_text += (f'\nСледующая генерация будет доступна: '
                        f'{day_req_limit.next_request_time.strftime("%d-%m-%Y %H:%M:%S")}')
 
     return {
+        'show_limit': day_req_limit.day_limit != -1,
         'day_limit_text': limit_text
     }
 
@@ -46,7 +48,7 @@ main_dialog = Dialog(
         Const('<b>Главное меню</b>\n\nДля использования бота нейросети YOLICO перейдите во вкладку '
               '«<b>Удалить водяные знаки</b>».\n'),
 
-        Format('{day_limit_text}'),
+        Format('{day_limit_text}', when='show_limit'),
 
         Start(Const('🔷 Удалить водяные знаки 🔷'), id='downloader_dialog', state=DownloaderDialogSG.main),
         Group(
