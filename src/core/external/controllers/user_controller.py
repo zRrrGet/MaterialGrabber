@@ -27,3 +27,6 @@ class UserController:
     def are_rules_accepted(self, manager: DialogManager):
         user_id = manager.middleware_data['user_id']
         return self.user_interactor.are_rules_accepted(user_id)
+
+    def reset_sub_all(self):
+        self.user_interactor.reset_sub_all()

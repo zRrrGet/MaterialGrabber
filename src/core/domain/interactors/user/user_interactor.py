@@ -21,3 +21,7 @@ class IUserInteractor(ABC):
     @abstractmethod
     def update_rules_agreement(self, user_id: int, agreed_with_rules: bool):
         pass
+
+    @abstractmethod
+    def reset_sub_all(self):
+        pass

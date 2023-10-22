@@ -43,3 +43,6 @@ class UserInteractor(IUserInteractor):
 
     def update_rules_agreement(self, user_id: int, agreed_with_rules: bool):
         self.user_repo.update_rules_agreement(user_id, agreed_with_rules)
+
+    def reset_sub_all(self):
+        self.user_repo.reset_sub_all()

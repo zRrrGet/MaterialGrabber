@@ -44,3 +44,6 @@ class AlchemyUserRepo(IUserRepository, AlchemyBaseRepo):
 
     def update_rules_agreement(self, user_id: int, agreed_with_rules: bool):
         self.execute(update(User).where(User.id == user_id).values({'accepted_rules': agreed_with_rules}))
+
+    def reset_sub_all(self):
+        self.execute(update(User).values({'subscribed_on_channels': False}))
