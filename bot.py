@@ -87,7 +87,7 @@ async def main():
     user_interactor = UserInteractor(user_repo, channel_repo, sub_validator)
     user_controller = UserController(user_interactor)
 
-    day_limit_interactor = DayLimitInteractor(request_repo)
+    day_limit_interactor = DayLimitInteractor(request_repo, user_repo)
     day_limit_controller = DayLimitController(day_limit_interactor)
 
     content_downloader = BeatsnoopDownloader(BaseSessionFactory())
