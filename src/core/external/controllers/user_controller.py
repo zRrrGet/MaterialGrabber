@@ -8,7 +8,8 @@ class UserController:
         self.user_interactor = user_interactor
 
     def ensure_user(self, data: dict) -> int:
-        return self.user_interactor.ensure_user(data['event_from_user'].id)
+        user = data['event_from_user']
+        return self.user_interactor.ensure_user(user.id, user.username, user.full_name)
 
     async def is_subscribed(self, manager: DialogManager) -> bool:
         user_id = manager.middleware_data['user_id']

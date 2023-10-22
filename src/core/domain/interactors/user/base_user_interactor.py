@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.core.domain.repositories.user_repo import IUserRepository
 from src.core.domain.repositories.channel_repo import IChannelRepository
 from src.core.domain.components.sub_validator import ISubValidator
@@ -5,7 +7,6 @@ from src.core.domain.components.sub_validator import ISubValidator
 from src.core.domain.entities.channel import Channel
 from src.core.domain.entities.user import User
 
-from src.core.domain.interactors.content_downloader.downloader_interactor import IDownloaderInteractor
 from .user_interactor import IUserInteractor
 
 
@@ -17,10 +18,10 @@ class UserInteractor(IUserInteractor):
         self.channel_repo = channel_repo
         self.sub_validator = sub_validator
 
-    def ensure_user(self, tg_id: int) -> int:
+    def ensure_user(self, tg_id: int, username: Optional[str], full_name: str) -> int:
         user = self.user_repo.get_user_by_tg(tg_id)
         if not user:
-            return self.user_repo.add_user(User(None, tg_id, False, False))
+            return self.user_repo.add_user(User(None, tg_id, username, full_name, None, False, False, False))
 
         return user.id
 

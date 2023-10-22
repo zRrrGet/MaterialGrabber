@@ -19,8 +19,14 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     tg_id: Mapped[int] = mapped_column(BIGINT, unique=True)
+    username: Mapped[str] = mapped_column(nullable=True)
+    full_name:  Mapped[str] = mapped_column()
+    joined_date: Mapped[datetime.datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
     subscribed_on_channels: Mapped[bool] = mapped_column()
     accepted_rules: Mapped[bool] = mapped_column()
+    has_req_limit: Mapped[bool] = mapped_column()
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
+
+from typing import Optional
 from src.core.domain.entities.channel import Channel
 
 
 class IUserInteractor(ABC):
 
     @abstractmethod
-    def ensure_user(self, tg_id: int) -> int:
+    def ensure_user(self, tg_id: int, username: Optional[str], full_name: str) -> int:
         pass
 
     @abstractmethod
