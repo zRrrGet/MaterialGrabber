@@ -27,8 +27,8 @@ class UserInteractor(IUserInteractor):
 
     async def get_unsubscribed_channels(self, user_id: int) -> list[Channel]:
         user = self.user_repo.get_user(user_id)
-        if user.subscribed_on_channels:
-            return []
+        # if user.subscribed_on_channels:
+        #     return []
 
         left_channels = []
         for channel in self.channel_repo.get_channels():
