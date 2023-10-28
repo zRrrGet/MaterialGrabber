@@ -36,6 +36,11 @@ async def run_pre_dialogs(manager: DialogManager):
 
 
 async def on_process_result(start_data: dict, result: Any, dialog_manager: DialogManager):
+    if result:
+        for msg_id in result:
+            bot = dialog_manager.event.bot
+            await bot.delete_message(dialog_manager.event.from_user.id, msg_id)
+
     await run_pre_dialogs(dialog_manager)
 
 
