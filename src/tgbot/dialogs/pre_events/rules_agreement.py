@@ -13,12 +13,17 @@ async def on_accept(callback: CallbackQuery, button: Button, manager: DialogMana
     user_controller.accept_rules(manager)
 
     await callback.message.delete()
-    await manager.done(show_mode=ShowMode.SEND)
+    await manager.done(manager.dialog_data['garbage_msg_ids'], show_mode=ShowMode.SEND)
 
 
 async def on_discard(callback: CallbackQuery, button: Button, manager: DialogManager):
-    await callback.message.answer('Для продолжения необходимо подтвердить '
-                                  'свое согласие с пользовательским соглашением!')
+    msg = await callback.message.answer('Для продолжения необходимо подтвердить '
+                                        'свое согласие с пользовательским соглашением!')
+    manager.dialog_data['garbage_msg_ids'].append(msg.message_id)
+
+
+async def on_dialog_start(start_data: dict, manager: DialogManager):
+    manager.dialog_data['garbage_msg_ids'] = []
 
 
 rules_agreement_dialog = Dialog(
@@ -47,4 +52,5 @@ rules_agreement_dialog = Dialog(
         ),
         state=RulesAgreementDialogSG.main,
     ),
+    on_start=on_dialog_start,
 )
