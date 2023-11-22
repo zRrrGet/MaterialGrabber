@@ -6,7 +6,7 @@ class DepositphotosClient(ToolxoxClient):
 
     @property
     def endpoint(self) -> str:
-        return 'https://toolxox.com/dl/2/dp_img2/getwx.php'
+        return 'https://toolxox.com/dl/2/dp_img2/get_max.php'
 
     def prepare_request_link(self, link: str) -> str:
         try:
